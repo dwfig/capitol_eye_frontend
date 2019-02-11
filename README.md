@@ -1,2 +1,2 @@
-# capital_eye_front_end
-capital eye fron end
+# capitol_eye_frontend
+capitol eye front end
