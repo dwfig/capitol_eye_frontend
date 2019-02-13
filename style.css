@@ -12,9 +12,28 @@ body{
 }
 
 #headbar{
-  background-color: red;
+  background-color: #FFAABB;
   height: 100%;
   width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#bill-btn{
+  border-radius: 30px;
+  background-color: green;
+  padding-left: 16px;
+  padding-right: 16px;
+  line-height: 20%;
+}
+
+#rep-btn{
+  border-radius: 30px;
+  background-color: green;
+  padding-left: 16px;
+  padding-right: 16px;
+  line-height: 20%;
 }
 
 #center-view{
@@ -35,14 +54,103 @@ body{
   overflow: scroll;
 }
 
-#center-view{
-  background-color: yellow;
+#center-feed{
+  background-color: white;
+  display: grid;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  /* grid-template-rows: 300px 300px 300px; */
+  grid-template-columns: repeat(auto-fill, 250px);
+  grid-gap: 20px;
   height: 100%;
   width: 100%;
+  overflow-y: scroll;
+}
 
+.rep{
+  width: 250px;
+  height: 300px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  background-color: white;
+  border-radius: 6px;
+/*  to add: box shadows */
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1), -1px 1px 1px rgba(0, 0, 0, 0.1);
+  transition: 0.4s;
+}
+
+.rep:hover{
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2), -2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+a{
+  color: #7766FF;
+  text-decoration: none;
+}
+
+h3{
+  margin-top: 10px;
+}
+
+h5{
+  color: #444444;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  line-height: 0px;
+  float: left;
+}
+
+.hover-info{
+  height: 100px;
+  color:white;
+  display:block;
+  line-height: 20px;
+  padding-top: 100px;
+  padding-left: 14px;
+  padding-bottom: 0px;
+  background-color: rgba(0,0,0,0.5);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  opacity: 0
+}
+
+.hover-info:hover{
+  opacity: 1;
+  transition: 0.6s
+}
+
+i{
+  color: #444444;
+  transition: 0.4s;
+}
+
+i:hover{
+  color: #7766ff;
+}
+
+.info-footer{
+  display: block;
+  float: right;
+  padding-right: 20px;
+}
+
+.rep-img{
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  height: 200px;
+  /* background-image: url("https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/O000173.jpg"); */
+  background-size: cover;
+}
+
+.rep-info{
+  padding-left: 14px;
 }
 
 .collection{
+  justify-self: center;
+  margin-top: 15px;
+  border-radius: 3px;
   width: 300px;
   height: 300px;
   background-color: green;
