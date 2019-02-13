@@ -20,6 +20,22 @@ body{
   align-items: center;
 }
 
+#bill-btn{
+  border-radius: 30px;
+  background-color: green;
+  padding-left: 16px;
+  padding-right: 16px;
+  line-height: 20%;
+}
+
+#rep-btn{
+  border-radius: 30px;
+  background-color: green;
+  padding-left: 16px;
+  padding-right: 16px;
+  line-height: 20%;
+}
+
 #center-view{
   background-color blue;
   display: grid;
@@ -41,11 +57,14 @@ body{
 #center-feed{
   background-color: white;
   display: grid;
-  padding: 20px;
-  grid-template-rows: 300px 300px 300px
+  padding-top: 20px;
+  padding-bottom: 20px;
+  /* grid-template-rows: 300px 300px 300px; */
+  grid-template-columns: repeat(auto-fill, 250px);
   grid-gap: 20px;
   height: 100%;
   width: 100%;
+  overflow-y: scroll;
 }
 
 .rep{
@@ -120,7 +139,7 @@ i:hover{
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   height: 200px;
-  background-image: url("https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/O000173.jpg");
+  /* background-image: url("https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/O000173.jpg"); */
   background-size: cover;
 }
 
