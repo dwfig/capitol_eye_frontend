@@ -1,34 +1,32 @@
-<!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="index.js"></script>
-  <title>Capitol Eye</title>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>Representatives</title>
+  <style>
+    img {
+      max-height: 200px;
+    }
+    textarea {
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <div id = "main-wrapper">
-    <div id= "headbar">
-      <span> head </span>
+  <div class='row'>
+
+    <div class='col-md-4'>
+      <ul class="list-group" id="list-group">
+      </ul>
     </div>
-    <div id = "center-view">
-      <div id = "left-pane">
-        <div class= "collection">
-        </div>
-        <div class= "collection">
-        </div>
-        <div class= "collection">
-        </div>
-        <div class= "collection">
-        </div>
-        <div class= "collection">
-        </div>
-        <div class= "collection">
-        </div>
-      </div>
-      <div id = "center-feed">
-        <span> vote </span>
+
+    <div class='col-md-8'>
+      <h2>Reps  Bills</h2>
+      <div id="bill-detail" class="collapse">
       </div>
     </div>
   </div>
+  <script src="src/index.js"></script>
 </body>
 </html>
