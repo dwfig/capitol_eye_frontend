@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
 
   function renderSingleBill(bill){
     return `<div class = "bill">
-              <h3 class = "bill-num"><a href = "bill-link">${bill.number}</a></h3>
+              <h3 class = "bill-num"><a href = "${bill.govtrack_url}">${bill.number}</a></h3>
               <h4 class = "short-title">${bill.short_title}</h4>
               <p class= "latest-action">${bill.latest_major_action}</p>
               <br>
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
   }
 
   fetchAllReps()
-  fetchBills()
+  //fetchBills()
   swapToBills()
 
 
