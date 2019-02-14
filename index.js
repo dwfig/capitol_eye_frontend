@@ -96,9 +96,71 @@ document.addEventListener("DOMContentLoaded", (e)=>{
      billContainer.style.display = "grid"
    }
 
+<<<<<<< HEAD
    function swapToReps(){
      repContainer.style.display = "grid"
      billContainer.style.display = "none"
    }
 
+=======
+   let collectionContainer = document.querySelector("#left-pane")
+   let collectionShow = document.getElementById("show-collection")
+   let yourCollection = document.getElementById("your-collection")
+
+
+
+   // fetch("http://localhost:3000/api/v1/collections")
+   // .then(r => r.json())
+   // .then(data => {
+   //
+   //   allCollections = data
+   //   allCollections.map(collection => {
+   //     collectionShow.innerHTML += `
+   //     <li>${collection.name}</li>
+   //
+   //     `
+   //
+   //   })// end of map
+
+
+   //})//end second then
+  //function getCollReps {
+   fetch ("http://localhost:3000/api/v1/custom")
+   .then(r => r.json())
+   .then(data => {
+     collections = data
+     collections.map(collection => {
+       yourCollection.innerText +=
+           collection
+     })
+      //console.log(data);
+
+       // console.log(collrep.representative_id);
+       // console.log(collrep.collection_id);
+
+     })
+
+
+ //}// end function get Collreps
+
+
+   collectionContainer.addEventListener('click', e => {
+
+     // let stateName = e.target.state
+     // console.log(stateName);
+     if(e.target.id === "state"){
+       //console.log(e.target.value);
+       let stateValue = e.target.value
+
+
+     }//end of if
+
+
+
+   })//end of listener
+
+
+
+
+>>>>>>> collection-js
 }) //end of DOMContentLoaded
