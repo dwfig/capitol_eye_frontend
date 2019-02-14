@@ -96,16 +96,14 @@ document.addEventListener("DOMContentLoaded", (e)=>{
      billContainer.style.display = "grid"
    }
 
-<<<<<<< HEAD
    function swapToReps(){
      repContainer.style.display = "grid"
      billContainer.style.display = "none"
    }
 
-=======
    let collectionContainer = document.querySelector("#left-pane")
    let collectionShow = document.getElementById("show-collection")
-   let yourCollection = document.getElementById("your-collection")
+   // let yourCollection = document.getElementById("your-collection")
 
 
 
@@ -128,18 +126,28 @@ document.addEventListener("DOMContentLoaded", (e)=>{
    fetch ("http://localhost:3000/api/v1/custom")
    .then(r => r.json())
    .then(data => {
+     console.log(data)
      collections = data
-     collections.map(collection => {
-       yourCollection.innerText +=
-           collection
-     })
-      //console.log(data);
-
-       // console.log(collrep.representative_id);
-       // console.log(collrep.collection_id);
-
+     collectionShow.innerHTML +=
+        renderAllCollections(collections)
      })
 
+  function renderSingleCollection(collection){
+    collectionName = collection.shift()
+    repNameList = collection.map(function(rep){
+      return `<p>${rep.slice(8)}</p>`
+    }).join("")
+    return `<div class="collection">
+          <h4>${collectionName}</h4>
+          ${repNameList}
+          </div>`
+  }
+
+  function renderAllCollections(collections){
+    return collections.map(function(collection){
+      return renderSingleCollection(collection)
+    }).join("")
+  }
 
  //}// end function get Collreps
 
@@ -162,5 +170,4 @@ document.addEventListener("DOMContentLoaded", (e)=>{
 
 
 
->>>>>>> collection-js
 }) //end of DOMContentLoaded
