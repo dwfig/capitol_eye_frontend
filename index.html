@@ -1,31 +1,5 @@
 <html>
 <head>
-<<<<<<< HEAD
-  <meta charset="UTF-8">
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <title>Representatives</title>
-  <style>
-    img {
-      max-height: 200px;
-    }
-    textarea {
-      width: 100%;
-    }
-  </style>
-</head>
-<body>
-  <div class='row'>
-
-    <div class='col-md-4'>
-      <ul class="list-group" id="list-group">
-      </ul>
-    </div>
-
-    <div class='col-md-8'>
-      <h2>Reps  Bills</h2>
-      <div id="bill-detail" class="collapse">
-=======
   <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <script src="index.js"></script>
@@ -39,8 +13,19 @@
       <span id="bill-btn"><h4>Recent Bills</h4></span>
     </div>
     <div id = "center-view">
-      <div id = "left-pane">
-        <div class = "collection">
+      <div id="left-pane">
+        <span><h3>Create your Collection</h3></span>
+        <label for="name">Name Your Collection:</label>
+        <input type="text" id="collection" name="name">
+        <label for="by_state">By State:</label>
+        <input type="text" id="state" name="state">
+        <button class="create-collection" type="button">Create Your Collection</button>
+
+        <div id="show-collection"class = "collection">
+          <div id="your-collection">
+
+          </div>
+
         </div>
       </div>
       <div id = "center-feed">
@@ -65,7 +50,6 @@
           </div>
         </div>
 
->>>>>>> 210fb29bd1db9e319fb34583915b57c719020efb
       </div>
     </div>
   </div>
