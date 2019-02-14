@@ -1,5 +1,5 @@
 const url = "http://localhost:3000/api/v1/representatives"
-const apiUrl = "https://api.propublica.org/congress/v1/116/house/bills/updated.json"
+const apiBillsUrl = "https://api.propublica.org/congress/v1/116/house/bills/updated.json"
 
 document.addEventListener("DOMContentLoaded", (e)=>{
   const centerContainer = document.querySelector("#center-feed")
@@ -21,9 +21,40 @@ document.addEventListener("DOMContentLoaded", (e)=>{
     swapToReps()
   })
 
+  // this method is a bit of a mess but it handles the showing and hiding of the Votes
+  // on the individual bill
+  billContainer.addEventListener("click", (e)=>{
+    if (e.target.className === "show-bill-btn"){
+      console.log(e.target.parentNode.children[3].style.display)
+      if (e.target.parentNode.children[3].style.display !== "block"){
+        e.target.parentNode.children[3].style.display = "block"
+        e.target.innerText="Hide Votes"
+        return
+        console.log(e.target.parentNode.children[3].style.display)
+      }
+      if (e.target.parentNode.children[3].style.display === "block"){
+        e.target.parentNode.children[3].style.display = "none"
+        e.target.innerText="Show Votes"
+        return
+        console.log(e.target.parentNode.children[3].style.display)
+      }
+    }
+  })
+
+  function fetchVotes(rep){
+    fetch(`https://api.propublica.org/congress/v1/members/{member-id}/votes.json`,{
+      method: "GET",
+      // mode: "no-cors",
+      headers: {
+        "X-API-KEY" : keys.apiKey
+      }
+    })
+    .then(r=>r.json())
+    .then(parsed => console.log(parsed))
+  }
 
   function fetchBills(){
-    fetch(apiUrl, {
+    fetch(apiBillsUrl, {
       method: "GET",
       // mode: "no-cors",
       headers: {
@@ -35,13 +66,14 @@ document.addEventListener("DOMContentLoaded", (e)=>{
   }
 
   function renderSingleBill(bill){
-    return `<div class = "bill">
+    return `<div class = "bill" data-id="${bill.bill_id}">
               <h3 class = "bill-num"><a href = "${bill.govtrack_url}">${bill.number}</a></h3>
               <h4 class = "short-title">${bill.short_title}</h4>
+              <span class = "show-bill-btn" data-id="${bill.bill_id}">Show Votes</span>
+              <div class="rep-votes" data-id="${bill.bill_id}"><h1>This is where the votes go.</h1></div>
               <p class= "latest-action">${bill.latest_major_action}</p>
               <br>
               <span class= "introduced">Introduced ${bill.introduced_date}</span><span class= "sponsor">Sponsored by ${bill.sponsor_title} ${bill.sponsor_name}, ${bill.sponsor_party}-${bill.sponsor_state}</span>
-              <span class="rep-votes"></span>
             </div>`
   }
 
@@ -87,7 +119,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
   }
 
   fetchAllReps()
-  //fetchBills()
+  fetchBills()
   swapToBills()
 
 
@@ -135,7 +167,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
   function renderSingleCollection(collection){
     collectionName = collection.shift()
     repNameList = collection.map(function(rep){
-      return `<p>${rep.slice(8)}</p>`
+      return `<p data-id="${rep.slice(0,7)}">${rep.slice(8)}</p>`
     }).join("")
     return `<div class="collection">
           <h4>${collectionName}</h4>
@@ -148,23 +180,16 @@ document.addEventListener("DOMContentLoaded", (e)=>{
       return renderSingleCollection(collection)
     }).join("")
   }
-
  //}// end function get Collreps
 
 
    collectionContainer.addEventListener('click', e => {
-
      // let stateName = e.target.state
      // console.log(stateName);
      if(e.target.id === "state"){
        //console.log(e.target.value);
        let stateValue = e.target.value
-
-
      }//end of if
-
-
-
    })//end of listener
 
 

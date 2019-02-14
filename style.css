@@ -95,6 +95,23 @@ body{
   overflow-y: scroll;
 }
 
+.show-bill-btn{
+  color: white;
+  background-color: #4400EE;
+  border-radius: 30px;
+  padding-top: 8px;
+  padding-bottom: 6px;
+  padding-left: 150px;
+  padding-right: 150px;
+  /* width: 500px; */
+  line-height: 20%;
+  margin: 25px;
+}
+
+.rep-votes{
+  display:none
+}
+
 #center-feed{
   width: 100%;
   /* height: 100%; */
