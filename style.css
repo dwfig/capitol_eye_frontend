@@ -2,78 +2,147 @@ body{
   margin: 0px;
   padding: 0px;
   font-family: sans-serif;
+  overflow: hidden;
 }
 
 #main-wrapper{
-  height: 100%;
-  width: 100%;
+  /* height: 100%; */
+  /* width: 100%; */
   display: grid;
   grid-template-rows: 100px 1fr;
+  overflow: hidden;
 }
 
 #headbar{
-  background-color: #FFAABB;
-  height: 100%;
+  background-color: black;
+  height: 100px;
   width: 100%;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: space-between;
+  /* position: sticky;
+  top: 0; */
+}
+
+#logo{
+  margin-left: 100px;
+  font-size: 20px;
+  color: white;
+  margin-top: 6px;
 }
 
 #bill-btn{
   border-radius: 30px;
-  background-color: green;
+  background-color: #4400EE;
+  box-shadow: 0px 2px 0px #7766FF;
+  color: white;
+  padding-top: 4px;
+
   padding-left: 16px;
   padding-right: 16px;
   line-height: 20%;
+  float: right;
+  margin: 25px;
+  margin-right: 50px;
 }
 
 #rep-btn{
   border-radius: 30px;
-  background-color: green;
+  background-color: #4400EE;
+  box-shadow: 0px 2px 0px #7766FF;
+
+  color: white;
+  padding-top: 4px;
   padding-left: 16px;
   padding-right: 16px;
   line-height: 20%;
+  float: left;
+  margin: 25px;
 }
 
 #center-view{
   background-color blue;
   display: grid;
   grid-template-columns: 1fr 3fr;
-  height: 100%;
-  width: 100%;
+  /* top: 100px; */
+  /* height: 100%; */
+  /* width: 100%; */
+  /* position: static; */
 }
 
 #left-pane{
   background-color: white;
-  height: 800px;
+  /* height: 100%; */
   width: 100%;
   display: grid;
   grid-template-rows: repeat(auto-fit, 300px);
   grid-gap: 20px;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 
-#center-feed{
-  background-color: white;
+#rep-container{
+  background-color: #fff8ed;
   display: grid;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px;
   /* grid-template-rows: 300px 300px 300px; */
-  grid-template-columns: repeat(auto-fill, 250px);
+  /* grid-template-columns: repeat(auto-fill, 250px); */
+  grid-template-columns: repeat(4, 250px);
   grid-gap: 20px;
   height: 100%;
   width: 100%;
+  position: absolute;
+  top: 100px;
   overflow-y: scroll;
+}
+#center-feed{
+  width: 100%;
+  /* height: 100%; */
+  /* top: 100px; */
+}
+
+#bill-container{
+  display: grid;
+  height: 100%;
+  width: 75%;
+  grid-gap: 10px;
+  grid-template-columns: 90%;
+  background-color: #fff8ed;
+  position: absolute;
+  top: 100px;
+  overflow-y: scroll;
+}
+
+.bill{
+  width: 100%;
+  border-radius: 6px;
+  box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.1), -1px -1px 1px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  margin-left: 20px;
+  padding:20px;
+  background-color: white;
+}
+
+.bill:hover{
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2), -2px -1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.introduced{
+  float:left;
+  color: gray;
+}
+
+.sponsor{
+  float: right;
+  color: gray;
 }
 
 .rep{
   width: 250px;
-  height: 300px;
+  height: 400px;
   display: grid;
   grid-template-rows: 1fr 1fr;
   background-color: white;
   border-radius: 6px;
+  margin-left: 2px;
 /*  to add: box shadows */
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1), -1px 1px 1px rgba(0, 0, 0, 0.1);
   transition: 0.4s;
@@ -102,7 +171,7 @@ h5{
 }
 
 .hover-info{
-  height: 100px;
+  height: 200px;
   color:white;
   display:block;
   line-height: 20px;
@@ -138,7 +207,7 @@ i:hover{
 .rep-img{
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  height: 200px;
+  height: 300px;
   /* background-image: url("https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/O000173.jpg"); */
   background-size: cover;
 }
