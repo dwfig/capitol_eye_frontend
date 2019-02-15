@@ -190,6 +190,15 @@ document.addEventListener("DOMContentLoaded", (e)=>{
               <div class= "rep-img" style="background-image: url(https://theunitedstates.io/images/congress/original/${rep.pp_id}.jpg);">
                 <div class = "hover-info">
                   <span class= "collection-btn" id ="button-${rep.pp_id}">Add to Collection</span>
+
+                <div id="modal-${rep.pp_id}" class="modal">
+                  <div class = "modal-content">
+                    <span>Text here, loop thru Collections</span>
+                    <span class = "close">&times;</span>
+                  </div>
+                </div>
+
+                  <br>
                   <p>${rep.office} </br>
                     ${rep.phone}</p>
                 </div>
