@@ -86,12 +86,16 @@ document.addEventListener("DOMContentLoaded", (e)=>{
                   `<div class="collection-votes" data-collection="${collectionHeader.dataset.collection}"><h4>${collectionHeader.innerHTML}</h4></div>`
   }
 
-  function renderRepsVotes(voteContainer, collectionContainer, bill_id){
+  function renderRepsVotes(rep, votePositon, bill_id){
     //this generates html for all the collections in the collection container
     // shows the title of the collection, shows the reps names
     // in green if position == yes, in red if == no
     let billVotesContainer = document.querySelector(`#${bill_id}-votes`)
+    let repCollectionContainer = billVotesContainer.querySelector(`[data-collection='${rep.dataset.collection}']`)
+    // console.log(repCollectionContainer)
     //
+    repCollectionContainer.innerHTML +=
+      `<p>${rep.innerHTML} ${votePositon}</p>`
     // one way to do this is probably to pass the entire rep object and use parts of it
     // add a "collection id" , render the collections in the votespace in the event listener
     // and then put the rendered reps in the appropriate space based on coll _ id
@@ -121,13 +125,17 @@ document.addEventListener("DOMContentLoaded", (e)=>{
         return vote.bill.bill_id === bill_id
       })
       if (found !== undefined){
-        // renderRepsVotes() will take REP, VOTE POSITION,
-        billVotesContainer.innerHTML += `${rep.innerHTML} voted ${found.position}`
+        // renderRepsVotes() will take REP, VOTE POSITION, BILL
+
+        // billVotesContainer.innerHTML += `${rep.innerHTML} voted ${found.position}`
+        renderRepsVotes(rep, `voted ${found.position}.`, bill_id)
+
         //instead of doing this here directly, the fetch will call the render method
         // which will write cute html for the container
       }
       if (found === undefined){
-        billVotesContainer.innerHTML += `${rep.innerHTML } did not vote.`
+        // billVotesContainer.innerHTML += `${rep.innerHTML } did not vote.`
+        renderRepsVotes(rep, "did not vote.", bill_id)
       }
       })
 
@@ -204,20 +212,15 @@ document.addEventListener("DOMContentLoaded", (e)=>{
     repContainer.innerHTML = fetchedReps
   }
 
-  fetchAllReps()
-  fetchBills()
-  swapToBills()
+  function swapToBills(){
+   repContainer.style.display = "none"
+   billContainer.style.display = "grid"
+  }
 
-
-   function swapToBills(){
-     repContainer.style.display = "none"
-     billContainer.style.display = "grid"
-   }
-
-   function swapToReps(){
-     repContainer.style.display = "grid"
-     billContainer.style.display = "none"
-   }
+  function swapToReps(){
+   repContainer.style.display = "grid"
+   billContainer.style.display = "none"
+  }
 
    let collectionContainer = document.querySelector("#left-pane")
    let collectionShow = document.getElementById("show-collection")
@@ -280,7 +283,10 @@ document.addEventListener("DOMContentLoaded", (e)=>{
      }//end of if
    })//end of listener
 
-
+   fetchAllReps()
+   fetchBills()
+   swapToReps()
+   swapToBills()
 
 
 }) //end of DOMContentLoaded
