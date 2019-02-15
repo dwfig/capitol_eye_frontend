@@ -259,6 +259,18 @@ i:hover{
   margin-right: 50px;
 }
 
+.collection-adder{
+  border-radius: 30px;
+  background-color: #7766FF;
+  color: white;
+  padding-top: 14px;
+  height: 30px;
+  padding-left: 16px;
+  padding-right: 16px;
+  /* line-height: 20%; */
+  margin-top: 20px;
+}
+
 .collection{
   justify-self: center;
   margin: 20px;
@@ -289,7 +301,7 @@ i:hover{
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 30%; /* Could be more or less, depending on screen size */
 }
 
 .close{

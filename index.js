@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
     let repDisplayName = `${rep.short_title} ${rep.first_name} ${rep.last_name}`
     let collectionChildren = Array.from(collectionLocation.children)
     let collectionButtons = collectionChildren.map((c)=>{
-      return `<h4 data-collection = ${c.firstElementChild.dataset.collection}>${c.firstElementChild.innerText}</h4>`
+      return `<h4 class="collection-adder" data-collection= ${c.firstElementChild.dataset.collection}>Add to: ${c.firstElementChild.innerText}</h4>`
     }).join("")
     return `<div class = "rep">
               <div class= "rep-img" style="background-image: url(https://theunitedstates.io/images/congress/original/${rep.pp_id}.jpg);">
