@@ -47,9 +47,8 @@ document.addEventListener("DOMContentLoaded", (e)=>{
           console.log(collectionTitle.innerHTML)
 
           collectionTitleAndReps.map(function(rep){
-            console.log(`${rep.innerHTML}`)
-            console.log(`${fetchVotes(rep, e.target.dataset.id)}`)
-          //  voteContainer.innerHTML += `<p>${fetchVotes(rep,bill_id)}</p>`
+            // console.log(`${rep.innerHTML}`)
+            fetchVotes(rep, e.target.dataset.id)
           })
 
         })
@@ -118,6 +117,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
   }
 
   function fetchVotes(rep, bill_id){
+    let billVotesContainer = document.querySelector(`#${bill_id}-votes`)
     fetch(`https://api.propublica.org/congress/v1/members/${rep.dataset.id}/votes.json`,{
       // makes one api call for each rep in the collection
       method: "GET",
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
       //
       if (found !== undefined){
         // console.log(`${rep.innerHTML} voted ${found.position}`)
-        return `${rep.innerHTML} voted ${found.position}`
+        billVotesContainer.innerHTML += `${rep.innerHTML} voted ${found.position}`
       }
       if (found === undefined){
         // console.log(`${rep.innerHTML } did not vote.`)
@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
               <h3 class = "bill-num"><a href = "${bill.govtrack_url}">${bill.number}</a></h3>
               <h4 class = "short-title">${bill.short_title}</h4>
               <span class = "show-bill-btn" data-id="${bill.bill_id}">Show Votes</span>
-              <div class="rep-votes" data-id="${bill.bill_id}"><h1>This is where the votes go.</h1></div>
+              <div class="rep-votes" id="${bill.bill_id}-votes"><h1>This is where the votes go.</h1></div>
               <p class= "latest-action">${bill.latest_major_action}</p>
               <br>
               <span class= "introduced">Introduced ${bill.introduced_date}</span><span class= "sponsor">Sponsored by ${bill.sponsor_title} ${bill.sponsor_name}, ${bill.sponsor_party}-${bill.sponsor_state}</span>
