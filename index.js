@@ -27,14 +27,16 @@ document.addEventListener("DOMContentLoaded", (e)=>{
   // this is a bit of a mess but it handles the showing and hiding of the Votes
   // on the individual bill
   billContainer.addEventListener("click", (e)=>{
-    if (e.target.className === "show-bill-btn"){
-      console.log(e.target.parentNode.children[3].style.display)
+    let clickedButton = e.target
+    let buttonStyle = clickedButton.parentNode.children[3].style
+    if (clickedButton.className === "show-bill-btn"){
+      console.log(buttonStyle.display)
       //there's a data-id on the bill-btn just for convenience here, basically
       // e.target is the bill button
-      if (e.target.parentNode.children[3].style.display === ""){
-        e.target.parentNode.children[3].style.display = "block"
-        console.log(e.target.parentNode.children[3].style.display)
-        e.target.innerText="Hide Votes"
+      if (buttonStyle.display === ""){
+        buttonStyle.display = "block"
+        console.log(buttonStyle.display)
+        clickedButton.innerText="Hide Votes"
         // this should be the case where the fetch is made
         // the style on the div is "" by default but we make it block or none
 
@@ -53,34 +55,20 @@ document.addEventListener("DOMContentLoaded", (e)=>{
 
         })
 
-        //renderRepsVotes(e.target.nextElementSibling, collectionLocation, e.target.dataset.id)
-
-        // e.target.dataset.id is the bill_id
-        //the voteContainer is set to "a" because it is not used in the second function yet
-        //voteContainer can't be global because it's used on the specific bill div
-        // that calls the method
-
-        //collectionLocation should probably be reduced to only one div and made global
-
-        //i think renderRepsVotes has to have the bill passed in too
-        // renderRepsVotes(whereToRenderVotes, whereToGetTheReps, whichBill)
-
-        // this can all be refactored into better OOJS!!
-        // can also add a "called?" variable that we set and prevent us from re-calling
-        // every button click
+        // this can all be refactored into better OOJS?
 
         return
       }
-      if (e.target.parentNode.children[3].style.display === "none"){
-        e.target.parentNode.children[3].style.display = "block"
-        e.target.innerText="Hide Votes"
+      if (buttonStyle.display === "none"){
+        buttonStyle.display = "block"
+        clickedButton.innerText="Hide Votes"
 
         return
       }
 
-      if (e.target.parentNode.children[3].style.display === "block"){
-        e.target.parentNode.children[3].style.display = "none"
-        e.target.innerText="Show Votes"
+      if (buttonStyle.display === "block"){
+        buttonStyle.display = "none"
+        clickedButton.innerText="Show Votes"
         return //returns to break out of event listening loop?
         // goal is to return specific text or run fn before return
       }
@@ -140,10 +128,12 @@ document.addEventListener("DOMContentLoaded", (e)=>{
       if (found !== undefined){
         // console.log(`${rep.innerHTML} voted ${found.position}`)
         billVotesContainer.innerHTML += `${rep.innerHTML} voted ${found.position}`
+        //instead of doing this here directly, the fetch will call the render method
+        // which will write cute html for the container
       }
       if (found === undefined){
         // console.log(`${rep.innerHTML } did not vote.`)
-        return `${rep.innerHTML } did not vote.`
+        billVotesContainer.innerHTML += `${rep.innerHTML } did not vote.`
       }
       })
 
