@@ -244,6 +244,21 @@ i:hover{
   padding-left: 14px;
 }
 
+.collection-btn{
+  border-radius: 30px;
+  background-color: #7766FF;
+  /* box-shadow: 0px 2px 0px #7766FF; */
+  color: white;
+  padding-top: 14px;
+  height: 30px;
+  padding-left: 16px;
+  padding-right: 16px;
+  /* line-height: 20%; */
+  float: right;
+  margin-top: -50px;
+  margin-right: 50px;
+}
+
 .collection{
   justify-self: center;
   margin: 20px;

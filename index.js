@@ -189,6 +189,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
     return `<div class = "rep">
               <div class= "rep-img" style="background-image: url(https://theunitedstates.io/images/congress/original/${rep.pp_id}.jpg);">
                 <div class = "hover-info">
+                  <span class= "collection-btn" id ="button-${rep.pp_id}">Add to Collection</span>
                   <p>${rep.office} </br>
                     ${rep.phone}</p>
                 </div>
@@ -204,6 +205,12 @@ document.addEventListener("DOMContentLoaded", (e)=>{
               </div>
             </div>`
   }
+
+  repContainer.addEventListener("click", (e)=>{
+    if (e.target.id.slice(0,6)=== "button"){
+      console.log(e.target.id.slice(7))
+    }
+  })
 
   function renderAllReps(reps){
     fetchedReps = reps.map(function(rep){
