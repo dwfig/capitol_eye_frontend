@@ -236,9 +236,46 @@ document.addEventListener("DOMContentLoaded", (e)=>{
       repModal.style.display = "none"
     }
     if (e.target.className==="collection-adder"){
-      console.log((parseInt(e.target.dataset.collection) - 1), e.target.dataset.representative)
+      console.log(e.target.dataset.representative, (parseInt(e.target.dataset.collection) - 1))
+      // postCollectionRep(parseInt(e.target.dataset.representative), (parseInt(e.target.dataset.collection) - 1))
+      let rep_id = parseInt(e.target.dataset.representative)
+      let collection_id = (parseInt(e.target.dataset.collection) - 1)
+      // let thisCollectionContainer = document.querySelector(`div.collection#${collection_id}`)
+      fetch("http://localhost:3000/api/v1/collectionreps",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          representative_id: rep_id,
+          collection_id: collection_id
+        })
+      })
+      .then(getCollReps())
+      // .then(thisCollectionContainer.innerHTML += `<p data-id="${rep_id}" data-collection="${collection_id}">${e.target.parentElement.firstElementChild.innerText}</p>`)
+
+      // subtracting one because the id on the page is one higher than the id in the database
+      // in the future you really have to organize better
+      // needs to 1 - FETCH POST the two ids here
+      //          2 - take two other values from this function and push them into the left-pane
     }
   })
+
+  function postCollectionRep(rep_id, collection_id){
+    fetch("http://localhost:3000/api/v1/collectionreps",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        representative_id: rep_id,
+        collection_id: collection_id
+      })
+    })
+    // .then((r)=>(r.json()))
+  }
 
   function renderAllReps(reps){
     fetchedReps = reps.map(function(rep){
@@ -278,17 +315,19 @@ document.addEventListener("DOMContentLoaded", (e)=>{
 
 
    //})//end second then
-  //function getCollReps {
+  function getCollReps(){
    fetch ("http://localhost:3000/api/v1/custom")
    .then(r => r.json())
    .then(data => {
      console.log(data)
      collections = data
-     collectionShow.innerHTML +=
+     collectionShow.innerHTML =
         renderAllCollections(collections)
      })
+   } //end function get Collreps
 
-  let arrayIndex = 0
+
+  let arrayIndex = 5
   function renderSingleCollection(collection){
     collectionName = collection.shift()
     arrayIndex += 1
@@ -306,7 +345,6 @@ document.addEventListener("DOMContentLoaded", (e)=>{
       return renderSingleCollection(collection)
     }).join("")
   }
- //}// end function get Collreps
 
 
    collectionContainer.addEventListener('click', e => {
@@ -319,6 +357,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
    })//end of listener
 
    fetchAllReps()
+   getCollReps()
    fetchBills()
    swapToReps()
    swapToBills()
