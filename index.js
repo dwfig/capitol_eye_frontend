@@ -186,6 +186,11 @@ document.addEventListener("DOMContentLoaded", (e)=>{
   }
 
   function renderSingleRep(rep){
+    let repDisplayName = `${rep.short_title} ${rep.first_name} ${rep.last_name}`
+    let collectionChildren = Array.from(collectionLocation.children)
+    let collectionButtons = collectionChildren.map((c)=>{
+      return `<h4 data-collection = ${c.firstElementChild.dataset.collection}>${c.firstElementChild.innerText}</h4>`
+    }).join("")
     return `<div class = "rep">
               <div class= "rep-img" style="background-image: url(https://theunitedstates.io/images/congress/original/${rep.pp_id}.jpg);">
                 <div class = "hover-info">
@@ -193,8 +198,10 @@ document.addEventListener("DOMContentLoaded", (e)=>{
 
                 <div id="modal-${rep.pp_id}" class="modal">
                   <div class = "modal-content">
-                    <span>Text here, loop thru Collections</span>
-                    <span class = "close">&times;</span>
+
+                    <span>${repDisplayName}</span>
+                    ${collectionButtons}
+                    <span class= "close" id = "close-${rep.pp_id}">&times;</span>
                   </div>
                 </div>
 
@@ -204,7 +211,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
                 </div>
               </div>
               <div class = "rep-info">
-                <a class= "rep-link" href="${rep.url}"><h3>${rep.short_title} ${rep.first_name} ${rep.last_name}</h3></a>
+                <a class= "rep-link" href="${rep.url}"><h3>${repDisplayName}</h3></a>
                 <h5>${rep.party}</h5><br>
                 <h5>${rep.state} - ${rep.district}</h5>
                 <span class= "info-footer">
@@ -216,8 +223,17 @@ document.addEventListener("DOMContentLoaded", (e)=>{
   }
 
   repContainer.addEventListener("click", (e)=>{
+    console.log(e.target.id)
     if (e.target.id.slice(0,6)=== "button"){
-      console.log(e.target.id.slice(7))
+      // console.log(e.target.id.slice(7))
+      let rep_id = e.target.id.slice(7)
+      let repModal = repContainer.querySelector(`#modal-${rep_id}`)
+      repModal.style.display = "block"
+    }
+    if (e.target.id.slice(0,5)=== "close"){
+      let rep_id = e.target.id.slice(6)
+      let repModal = repContainer.querySelector(`#modal-${rep_id}`)
+      repModal.style.display = "none"
     }
   })
 
