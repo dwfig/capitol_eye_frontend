@@ -28,29 +28,34 @@ document.addEventListener("DOMContentLoaded", (e)=>{
   // on the individual bill
   billContainer.addEventListener("click", (e)=>{
     let clickedButton = e.target
-    let buttonStyle = clickedButton.parentNode.children[3].style
+    let votesStyle = clickedButton.parentNode.children[3].style
     if (clickedButton.className === "show-bill-btn"){
-      console.log(buttonStyle.display)
+      console.log(votesStyle.display)
       //there's a data-id on the bill-btn just for convenience here, basically
       // e.target is the bill button
-      if (buttonStyle.display === ""){
-        buttonStyle.display = "block"
-        console.log(buttonStyle.display)
+      if (votesStyle.display === ""){
+        votesStyle.display = "block"
+        console.log(votesStyle.display)
         clickedButton.innerText="Hide Votes"
         // this should be the case where the fetch is made
         // the style on the div is "" by default but we make it block or none
 
         let collections = Array.from(collectionLocation.children)
+        // console.log(`COLLECTIONS ARRAY: ${collections}`)
+        // here collection is the whole div (header and reps)
         collections.map(function(collection){
           collectionTitleAndReps = Array.from(collection.children)
           // console.log(collectionTitleAndReps)
           //the first element of title and reps is the title, the header from the div
           let collectionTitle = collectionTitleAndReps.shift()
           console.log(collectionTitle.innerHTML)
-
+          renderCollectionContainer(collectionTitle, clickedButton.dataset.id)
           collectionTitleAndReps.map(function(rep){
-            // console.log(`${rep.innerHTML}`)
-            fetchVotes(rep, e.target.dataset.id)
+            // console.log(`${rep.collid}`)
+            // console.log(`${rep.dataset.collection}`)
+            // probably call a render collection space fn here
+            fetchVotes(rep, clickedButton.dataset.id)
+            //
           })
 
         })
@@ -59,15 +64,15 @@ document.addEventListener("DOMContentLoaded", (e)=>{
 
         return
       }
-      if (buttonStyle.display === "none"){
-        buttonStyle.display = "block"
+      if (votesStyle.display === "none"){
+        votesStyle.display = "block"
         clickedButton.innerText="Hide Votes"
 
         return
       }
 
-      if (buttonStyle.display === "block"){
-        buttonStyle.display = "none"
+      if (votesStyle.display === "block"){
+        votesStyle.display = "none"
         clickedButton.innerText="Show Votes"
         return //returns to break out of event listening loop?
         // goal is to return specific text or run fn before return
@@ -75,33 +80,25 @@ document.addEventListener("DOMContentLoaded", (e)=>{
     }
   })
 
+  function renderCollectionContainer(collectionHeader, bill_id){
+    let repVoteSpace = document.querySelector(`#${bill_id}-votes`)
+    repVoteSpace.innerHTML+= `<div> ${collectionHeader.innerHTML} </div>`
+  }
+
   function renderRepsVotes(voteContainer, collectionContainer, bill_id){
     //this generates html for all the collections in the collection container
     // shows the title of the collection, shows the reps names
-    // let collections = Array.from(collectionContainer.children)
-    // collections.map(function(collection){
-    //   collectionTitleAndReps = Array.from(collection.children)
-    //   // console.log(collectionTitleAndReps)
-    //   //the first element of title and reps is the title, the header from the div
-    //   let collectionTitle = collectionTitleAndReps.shift()
-    //   console.log(collectionTitle.innerHTML)
-    //
-    //   collectionTitleAndReps.map(function(rep){
-    //     console.log(`${rep.innerHTML}`)
-    //     console.log(`${fetchVotes(rep, bill_id)}`)
-    //     voteContainer.innerHTML += `<p>${fetchVotes(rep,bill_id)}</p>`
-        //current goal: take what renders in the console now
-                     // render in the div as html
-
-        //async requests, but logs all vote positions (As specified in fetchVotes)
-
-        //then we map thru the remaining array and get ids and names
-
-    //   })
-    // })
-    // for each rep, call the fetch vote method
     // in green if position == yes, in red if == no
+    let billVotesContainer = document.querySelector(`#${bill_id}-votes`)
 
+    // one way to do this is probably to pass the entire rep object and use parts of it
+    // add a "collection id" , render the collections in the votespace in the event listener
+    // and then put the rendered reps in the appropriate space based on coll _ id
+    // TODO ?? HELP??
+    // i hacked a solution together by incrementing a global variable arrayIndex
+    // given to the collection and the reps that belong in it
+
+    //we pass rep obj on button press
   }
 
   function fetchVotes(rep, bill_id){
@@ -127,6 +124,8 @@ document.addEventListener("DOMContentLoaded", (e)=>{
       //
       if (found !== undefined){
         // console.log(`${rep.innerHTML} voted ${found.position}`)
+
+        // renderRepsVotes() will take REP, VOTE POSITION,
         billVotesContainer.innerHTML += `${rep.innerHTML} voted ${found.position}`
         //instead of doing this here directly, the fetch will call the render method
         // which will write cute html for the container
@@ -256,13 +255,15 @@ document.addEventListener("DOMContentLoaded", (e)=>{
         renderAllCollections(collections)
      })
 
+  let arrayIndex = 0
   function renderSingleCollection(collection){
     collectionName = collection.shift()
+    arrayIndex += 1
     repNameList = collection.map(function(rep){
-      return `<p data-id="${rep.slice(0,7)}">${rep.slice(8)}</p>`
+      return `<p data-id="${rep.slice(0,7)}" data-collection="${arrayIndex}">${rep.slice(8)}</p>`
     }).join("")
-    return `<div class="collection">
-          <h4>${collectionName}</h4>
+    return `<div class="collection" data-id="${arrayIndex}">
+          <h4 data-collection="${arrayIndex}">${collectionName}</h4>
           ${repNameList}
           </div>`
   }
