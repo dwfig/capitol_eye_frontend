@@ -29,13 +29,54 @@ document.addEventListener("DOMContentLoaded", (e)=>{
   billContainer.addEventListener("click", (e)=>{
     if (e.target.className === "show-bill-btn"){
       console.log(e.target.parentNode.children[3].style.display)
+      //there's a data-id on the bill-btn just for convenience here, basically
+      // e.target is the bill button
+      if (e.target.parentNode.children[3].style.display === ""){
+        e.target.parentNode.children[3].style.display = "block"
+        console.log(e.target.parentNode.children[3].style.display)
+        e.target.innerText="Hide Votes"
+        // this should be the case where the fetch is made
+        // the style on the div is "" by default but we make it block or none
 
-      if (e.target.parentNode.children[3].style.display !== "block"){
+        let collections = Array.from(collectionLocation.children)
+        collections.map(function(collection){
+          collectionTitleAndReps = Array.from(collection.children)
+          // console.log(collectionTitleAndReps)
+          //the first element of title and reps is the title, the header from the div
+          let collectionTitle = collectionTitleAndReps.shift()
+          console.log(collectionTitle.innerHTML)
+
+          collectionTitleAndReps.map(function(rep){
+            console.log(`${rep.innerHTML}`)
+            console.log(`${fetchVotes(rep, e.target.dataset.id)}`)
+          //  voteContainer.innerHTML += `<p>${fetchVotes(rep,bill_id)}</p>`
+          })
+
+        })
+
+        //renderRepsVotes(e.target.nextElementSibling, collectionLocation, e.target.dataset.id)
+
+        // e.target.dataset.id is the bill_id
+        //the voteContainer is set to "a" because it is not used in the second function yet
+        //voteContainer can't be global because it's used on the specific bill div
+        // that calls the method
+
+        //collectionLocation should probably be reduced to only one div and made global
+
+        //i think renderRepsVotes has to have the bill passed in too
+        // renderRepsVotes(whereToRenderVotes, whereToGetTheReps, whichBill)
+
+        // this can all be refactored into better OOJS!!
+        // can also add a "called?" variable that we set and prevent us from re-calling
+        // every button click
+
+        return
+      }
+      if (e.target.parentNode.children[3].style.display === "none"){
         e.target.parentNode.children[3].style.display = "block"
         e.target.innerText="Hide Votes"
-        renderRepsVotes("a", collectionLocation)
-        fetchVotes("A000375")
-        return //
+
+        return
       }
 
       if (e.target.parentNode.children[3].style.display === "block"){
@@ -47,34 +88,38 @@ document.addEventListener("DOMContentLoaded", (e)=>{
     }
   })
 
-  function renderRepsVotes(voteContainer, collectionContainer){
+  function renderRepsVotes(voteContainer, collectionContainer, bill_id){
     //this generates html for all the collections in the collection container
     // shows the title of the collection, shows the reps names
-    let collections = Array.from(collectionContainer.children)
-    collections.map(function(collection){
-      collectionTitleAndReps = Array.from(collection.children)
-      console.log(collectionTitleAndReps)
-      //the first element of title and reps is the title, the header from the div
-      let collectionTitle = collectionTitleAndReps.shift()
-      console.log(collectionTitle.innerHTML)
+    // let collections = Array.from(collectionContainer.children)
+    // collections.map(function(collection){
+    //   collectionTitleAndReps = Array.from(collection.children)
+    //   // console.log(collectionTitleAndReps)
+    //   //the first element of title and reps is the title, the header from the div
+    //   let collectionTitle = collectionTitleAndReps.shift()
+    //   console.log(collectionTitle.innerHTML)
+    //
+    //   collectionTitleAndReps.map(function(rep){
+    //     console.log(`${rep.innerHTML}`)
+    //     console.log(`${fetchVotes(rep, bill_id)}`)
+    //     voteContainer.innerHTML += `<p>${fetchVotes(rep,bill_id)}</p>`
+        //current goal: take what renders in the console now
+                     // render in the div as html
 
-      collectionTitleAndReps.map(function(rep){
-        // console.log(`${rep.dataset.id} ${rep.innerHTML}`)
-        console.log(`${rep.innerHTML}`)
-        console.log(fetchVotes(rep.dataset.id))
         //async requests, but logs all vote positions (As specified in fetchVotes)
 
         //then we map thru the remaining array and get ids and names
 
-      })
-    })
+    //   })
+    // })
     // for each rep, call the fetch vote method
     // in green if position == yes, in red if == no
 
   }
 
-  function fetchVotes(rep){
-    fetch(`https://api.propublica.org/congress/v1/members/${rep}/votes.json`,{
+  function fetchVotes(rep, bill_id){
+    fetch(`https://api.propublica.org/congress/v1/members/${rep.dataset.id}/votes.json`,{
+      // makes one api call for each rep in the collection
       method: "GET",
       // mode: "no-cors",
       headers: {
@@ -83,14 +128,23 @@ document.addEventListener("DOMContentLoaded", (e)=>{
     })
     .then(r=>r.json())
     .then((parsed) =>{
-      // parsed.results[0].votes.map((vote)=>{
-      //   // console.log(vote.bill.bill_id)
-      //   console.log(vote.position)
-      // }))
+      // console.log(parsed)
+      // what comes back is a collection of vote objects that we look through for the one
+      // that has the bill_id we want
       let found = parsed.results[0].votes.find((vote)=>{
-        return vote.bill.bill_id === "hres122-116"
+        return vote.bill.bill_id === bill_id
       })
-      console.log(`${found.member_id} ${found.position}`)
+      // TODO: some kind of handler for people who have no votes for this thing
+      // because memberid will return undefined (is this just "if found !== undefined?")
+      //
+      if (found !== undefined){
+        // console.log(`${rep.innerHTML} voted ${found.position}`)
+        return `${rep.innerHTML} voted ${found.position}`
+      }
+      if (found === undefined){
+        // console.log(`${rep.innerHTML } did not vote.`)
+        return `${rep.innerHTML } did not vote.`
+      }
       })
 
 
