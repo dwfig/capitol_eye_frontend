@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
       //there's a data-id on the bill-btn just for convenience here, basically
       // e.target is the bill button
       if (votesStyle.display === ""){
-        votesStyle.display = "block"
+        votesStyle.display = "flex"
         console.log(votesStyle.display)
         clickedButton.innerText="Hide Votes"
         // this should be the case where the fetch is made
@@ -65,13 +65,13 @@ document.addEventListener("DOMContentLoaded", (e)=>{
         return
       }
       if (votesStyle.display === "none"){
-        votesStyle.display = "block"
+        votesStyle.display = "flex"
         clickedButton.innerText="Hide Votes"
 
         return
       }
 
-      if (votesStyle.display === "block"){
+      if (votesStyle.display === "flex"){
         votesStyle.display = "none"
         clickedButton.innerText="Show Votes"
         return //returns to break out of event listening loop?
@@ -82,7 +82,8 @@ document.addEventListener("DOMContentLoaded", (e)=>{
 
   function renderCollectionContainer(collectionHeader, bill_id){
     let repVoteSpace = document.querySelector(`#${bill_id}-votes`)
-    repVoteSpace.innerHTML+= `<div> ${collectionHeader.innerHTML} </div>`
+    repVoteSpace.innerHTML+=
+                  `<div class="collection-votes" data-collection="${collectionHeader.dataset.collection}"><h4>${collectionHeader.innerHTML}</h4></div>`
   }
 
   function renderRepsVotes(voteContainer, collectionContainer, bill_id){
@@ -90,7 +91,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
     // shows the title of the collection, shows the reps names
     // in green if position == yes, in red if == no
     let billVotesContainer = document.querySelector(`#${bill_id}-votes`)
-
+    //
     // one way to do this is probably to pass the entire rep object and use parts of it
     // add a "collection id" , render the collections in the votespace in the event listener
     // and then put the rendered reps in the appropriate space based on coll _ id
@@ -119,19 +120,13 @@ document.addEventListener("DOMContentLoaded", (e)=>{
       let found = parsed.results[0].votes.find((vote)=>{
         return vote.bill.bill_id === bill_id
       })
-      // TODO: some kind of handler for people who have no votes for this thing
-      // because memberid will return undefined (is this just "if found !== undefined?")
-      //
       if (found !== undefined){
-        // console.log(`${rep.innerHTML} voted ${found.position}`)
-
         // renderRepsVotes() will take REP, VOTE POSITION,
         billVotesContainer.innerHTML += `${rep.innerHTML} voted ${found.position}`
         //instead of doing this here directly, the fetch will call the render method
         // which will write cute html for the container
       }
       if (found === undefined){
-        // console.log(`${rep.innerHTML } did not vote.`)
         billVotesContainer.innerHTML += `${rep.innerHTML } did not vote.`
       }
       })
@@ -161,7 +156,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
               <h3 class = "bill-num"><a href = "${bill.govtrack_url}">${bill.number}</a></h3>
               <h4 class = "short-title">${bill.short_title}</h4>
               <span class = "show-bill-btn" data-id="${bill.bill_id}">Show Votes</span>
-              <div class="rep-votes" id="${bill.bill_id}-votes"><h1>This is where the votes go.</h1></div>
+              <div class="rep-votes" id="${bill.bill_id}-votes"></div>
               <p class= "latest-action">${bill.latest_major_action}</p>
               <br>
               <span class= "introduced">Introduced ${bill.introduced_date}</span><span class= "sponsor">Sponsored by ${bill.sponsor_title} ${bill.sponsor_name}, ${bill.sponsor_party}-${bill.sponsor_state}</span>
