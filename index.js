@@ -1,5 +1,7 @@
 const url = "http://localhost:3000/api/v1/representatives"
-const apiBillsUrl = "https://api.propublica.org/congress/v1/116/house/bills/updated.json"
+const apiBillsUrl = "https://api.propublica.org/congress/v1/116/house/bills/passed.json"
+// if none of these are working for our particular application, change "updated" to "passed"
+// this will mean more votes are showing up
 
 document.addEventListener("DOMContentLoaded", (e)=>{
   const centerContainer = document.querySelector("#center-feed")
@@ -7,6 +9,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
   const repButton = document.querySelector("#rep-btn")
   const billContainer = document.querySelector("#bill-container")
   const repContainer = document.querySelector("#rep-container")
+  const collectionLocation = document.querySelector("#show-collection")
   let fetchedReps = []
   let fetchedBills = []
 
@@ -21,28 +24,57 @@ document.addEventListener("DOMContentLoaded", (e)=>{
     swapToReps()
   })
 
-  // this method is a bit of a mess but it handles the showing and hiding of the Votes
+  // this is a bit of a mess but it handles the showing and hiding of the Votes
   // on the individual bill
   billContainer.addEventListener("click", (e)=>{
     if (e.target.className === "show-bill-btn"){
       console.log(e.target.parentNode.children[3].style.display)
+
       if (e.target.parentNode.children[3].style.display !== "block"){
         e.target.parentNode.children[3].style.display = "block"
         e.target.innerText="Hide Votes"
-        return
-        console.log(e.target.parentNode.children[3].style.display)
+        renderRepsVotes("a", collectionLocation)
+        fetchVotes("A000375")
+        return //
       }
+
       if (e.target.parentNode.children[3].style.display === "block"){
         e.target.parentNode.children[3].style.display = "none"
         e.target.innerText="Show Votes"
-        return
-        console.log(e.target.parentNode.children[3].style.display)
+        return //returns to break out of event listening loop?
+        // goal is to return specific text or run fn before return
       }
     }
   })
 
+  function renderRepsVotes(voteContainer, collectionContainer){
+    //this generates html for all the collections in the collection container
+    // shows the title of the collection, shows the reps names
+    let collections = Array.from(collectionContainer.children)
+    collections.map(function(collection){
+      collectionTitleAndReps = Array.from(collection.children)
+      console.log(collectionTitleAndReps)
+      //the first element of title and reps is the title, the header from the div
+      let collectionTitle = collectionTitleAndReps.shift()
+      console.log(collectionTitle.innerHTML)
+
+      collectionTitleAndReps.map(function(rep){
+        // console.log(`${rep.dataset.id} ${rep.innerHTML}`)
+        console.log(`${rep.innerHTML}`)
+        console.log(fetchVotes(rep.dataset.id))
+        //async requests, but logs all vote positions (As specified in fetchVotes)
+
+        //then we map thru the remaining array and get ids and names
+
+      })
+    })
+    // for each rep, call the fetch vote method
+    // in green if position == yes, in red if == no
+
+  }
+
   function fetchVotes(rep){
-    fetch(`https://api.propublica.org/congress/v1/members/{member-id}/votes.json`,{
+    fetch(`https://api.propublica.org/congress/v1/members/${rep}/votes.json`,{
       method: "GET",
       // mode: "no-cors",
       headers: {
@@ -50,7 +82,23 @@ document.addEventListener("DOMContentLoaded", (e)=>{
       }
     })
     .then(r=>r.json())
-    .then(parsed => console.log(parsed))
+    .then((parsed) =>{
+      // parsed.results[0].votes.map((vote)=>{
+      //   // console.log(vote.bill.bill_id)
+      //   console.log(vote.position)
+      // }))
+      let found = parsed.results[0].votes.find((vote)=>{
+        return vote.bill.bill_id === "hres122-116"
+      })
+      console.log(`${found.member_id} ${found.position}`)
+      })
+
+
+    // fetch vote positions for a member, look through for one that matches this bill
+    // fetchedVotes.results.votes[0].bill.bill_id ===
+    // fetchedVotes.results.votes.find((v)=> {return v.bill.bill_id === })
+
+    // fetchedVotes.results.votes[0].position
   }
 
   function fetchBills(){
